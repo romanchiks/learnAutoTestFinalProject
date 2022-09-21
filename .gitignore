@@ -1,1 +1,4 @@
-environments/
+envinonments/
+__pycache__/
+.pytest_cache/
+geckodriver.log
