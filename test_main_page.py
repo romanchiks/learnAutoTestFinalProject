@@ -25,3 +25,9 @@ def test_quest_should_be_login_form(driver):
     page = LoginPage(driver, LoginPage.LOGIN_PAGE_LINK)
     page.open()
     page.should_be_login_form()
+
+
+def test_quest_should_be_registration_form(driver):
+    page = LoginPage(driver, LoginPage.LOGIN_PAGE_LINK)
+    page.open()
+    page.should_be_register_form()
