@@ -1,4 +1,4 @@
-envinonments/
+env/
 __pycache__/
 .pytest_cache/
 geckodriver.log
