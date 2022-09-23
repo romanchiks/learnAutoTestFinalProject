@@ -1,5 +1,8 @@
+import re
+import math
+import pytest
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
 
 
 class BasePage():
@@ -9,11 +12,11 @@ class BasePage():
         self.url = url
         self.driver.implicitly_wait(implicitly_wait)
 
-    def find_elem(self, css_selector):
-        return self.driver.find_element(By.CSS_SELECTOR, f'{css_selector}')
+    def find_elem(self, selector, search_method=By.CSS_SELECTOR):
+        return self.driver.find_element(search_method, f'{selector}')
 
-    def find_elems(self, css_selector):
-        return self.driver.find_elements(By.CSS_SELECTOR, f'{css_selector}')
+    def find_elems(self, selector, search_method=By.CSS_SELECTOR):
+        return self.driver.find_elements(search_method, f'{selector}')
 
     def open(self):
         self.driver.get(self.url)
@@ -24,3 +27,26 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
+
+    def get_number_from_text(self, str, type='int'):
+        if type == 'int':
+            return [int(s) for s in re.findall(r'-?\d+\.?\d*', str)][0]
+        elif type == 'float':
+            return [float(s) for s in re.findall(r'-?\d+\.?\d*', str)][0]
+        else:
+            raise pytest.UsageError(
+                f'Invalid number type specified: "{type}". Available: "int", "float"')
+
+    def solve_quiz_and_get_code(self):
+        alert = self.driver.switch_to.alert
+        x = alert.text.split(" ")[2]
+        answer = str(math.log(abs((12 * math.sin(float(x))))))
+        alert.send_keys(answer)
+        alert.accept()
+        try:
+            alert = self.driver.switch_to.alert
+            alert_text = alert.text
+            print(f"Your code: {alert_text}")
+            alert.accept()
+        except NoAlertPresentException:
+            print("No second alert presented")
