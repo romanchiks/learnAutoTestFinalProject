@@ -31,3 +31,9 @@ def test_quest_should_be_registration_form(driver):
     page = LoginPage(driver, LoginPage.LOGIN_PAGE_LINK)
     page.open()
     page.should_be_register_form()
+
+
+def test_guest_cant_see_product_in_basket_opened_from_main_page(driver):
+    page = MainPage(driver, MainPage.MAIN_PAGE_LINK)
+    page.open()
+    page.should_be_no_items_in_guest_cart()

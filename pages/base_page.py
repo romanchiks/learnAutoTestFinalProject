@@ -6,6 +6,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException, TimeoutException
 
+from .locators import BasePageLocators
+
 
 class BasePage():
 
@@ -68,3 +70,22 @@ class BasePage():
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def should_be_login_link(self):
+        assert self.is_element_present(
+            BasePageLocators.LOGIN_LINK), "Login link is not presented"
+        return True
+
+    def go_to_login_page(self):
+        self.find_elem(BasePageLocators.LOGIN_LINK).click()
+
+    def go_to_basket_page(self):
+        self.find_elem(BasePageLocators.BASKET_LINK).click()
+
+    def should_be_no_items_in_guest_cart(self):
+        self.go_to_basket_page()
+        assert self.should_be_login_link(), 'The current user is not a guest'
+        assert self.is_element_not_present(
+            BasePageLocators.BASKET_ITEMS), 'Guest user has products on first login'
+        assert self.is_element_present(
+            BasePageLocators.TEXT_BASKET_IS_EMPTY), 'There is no text that the cart is empty'

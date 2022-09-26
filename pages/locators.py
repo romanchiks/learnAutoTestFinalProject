@@ -1,8 +1,12 @@
-from sre_constants import SUCCESS
+class BasePageLocators():
+    LOGIN_LINK = '#login_link'
+    BASKET_LINK = '.basket-mini a.btn'
+    BASKET_ITEMS = 'basket-items'
+    TEXT_BASKET_IS_EMPTY = '#content_inner p:nth-child(1) a'
 
 
 class MainPageLocators():
-    LOGIN_LINK = '#login_link'
+    pass
 
 
 class LoginPageLocators():
