@@ -23,10 +23,10 @@ class ProductPage(BasePage):
         price_items_added_to_basket = self.get_number_from_text(
             str=price_items_added_to_basket_text, type='float')
 
-        assert item_name == name_item_added_to_basket, f'The name of the product added to basket: "{item_name}" ' +\
+        assert item_name == name_item_added_to_basket, f'The name of the product added to basket: "{item_name}" ' \
             f'does not match the name of the product: "{name_item_added_to_basket}"'
 
-        assert items_price == price_items_added_to_basket, 'The price of the products added to the basket: ' +\
+        assert items_price == price_items_added_to_basket, 'The price of the products added to the basket: ' \
             f'{price_items_added_to_basket} does not match the price of the products: {items_price}'
 
     def should_not_be_success_message(self):

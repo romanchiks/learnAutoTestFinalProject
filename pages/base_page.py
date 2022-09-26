@@ -89,3 +89,8 @@ class BasePage():
             BasePageLocators.BASKET_ITEMS), 'Guest user has products on first login'
         assert self.is_element_present(
             BasePageLocators.TEXT_BASKET_IS_EMPTY), 'There is no text that the cart is empty'
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(BasePageLocators.USER_ICON), "User icon is not presented," \
+            " probably unauthorised user"
+        return True

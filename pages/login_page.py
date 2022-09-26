@@ -1,3 +1,4 @@
+import time
 from .locators import LoginPageLocators
 from .base_page import BasePage
 
@@ -22,4 +23,16 @@ class LoginPage(BasePage):
 
     def should_be_register_form(self):
         assert self.is_element_present(
-            LoginPageLocators.REGISTRATION_FORM), f'Registration form not found (locator: {LoginPageLocators.REGISTRATION_FORM})'
+            LoginPageLocators.REGISTRATION_FORM), 'Registration form not found (locator: ' \
+            f'{LoginPageLocators.REGISTRATION_FORM})'
+
+    def register_new_user(self, email=str(time.time())+'@fk.org', password='PaSsWoRd192837465'):
+        self.find_elem(LoginPageLocators.REG_EMAIL_INPUT).send_keys(email)
+        self.find_elem(
+            LoginPageLocators.REG_PASSWORD_INPUT).send_keys(password)
+        self.find_elem(
+            LoginPageLocators.REG_PASSWORD_REPEAT_INPUT).send_keys(password)
+        self.find_elem(LoginPageLocators.REG_SUBMIT_BUTTON).click()
+
+        assert self.find_elem(
+            LoginPageLocators.TEXT_SUCCESS_REGISTRATION), 'No message about successful registration'
