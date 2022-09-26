@@ -1,3 +1,6 @@
+from sre_constants import SUCCESS
+
+
 class MainPageLocators():
     LOGIN_LINK = '#login_link'
 
@@ -13,3 +16,4 @@ class ProductPageLocators():
     ITEMS_PRICE = 'div.basket-mini'
     NAME_ITEM_ADDED_TO_BASKET = '#messages div:first-child strong '
     PRICE_ITEMS_ADDED_TO_BASKET = '.alertinner > p > strong'
+    SUCCESS_MESSAGE = '#messages div'

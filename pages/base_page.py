@@ -2,7 +2,9 @@ import re
 import math
 import pytest
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException, TimeoutException
 
 
 class BasePage():
@@ -13,10 +15,10 @@ class BasePage():
         self.driver.implicitly_wait(implicitly_wait)
 
     def find_elem(self, selector, search_method=By.CSS_SELECTOR):
-        return self.driver.find_element(search_method, f'{selector}')
+        return self.driver.find_element(search_method, selector)
 
     def find_elems(self, selector, search_method=By.CSS_SELECTOR):
-        return self.driver.find_elements(search_method, f'{selector}')
+        return self.driver.find_elements(search_method, selector)
 
     def open(self):
         self.driver.get(self.url)
@@ -25,6 +27,22 @@ class BasePage():
         try:
             self.find_elem(css_selector)
         except NoSuchElementException:
+            return False
+        return True
+
+    def is_element_not_present(self, css_selector, timeout=2):
+        try:
+            WebDriverWait(self.driver, timeout).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
+        except TimeoutException:
+            return True
+        return False
+
+    def is_disappeared(self, css_selector, timeout=2):
+        try:
+            WebDriverWait(self.driver, timeout, ignored_exceptions=TimeoutException).until_not(
+                EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
+        except TimeoutException:
             return False
         return True
 
